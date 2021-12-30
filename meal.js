@@ -8,21 +8,23 @@ const search = document.getElementById("search"),
 //search meals
 function searchMeal(e) {
   e.preventDefault();
-
+  resultHeading.innerHTML = "";
+ mealsEl.innerHTML = "";
   //clear single meal
   single_mealEl.innerHTML = "";
+ 
 
   //get search meal
   const term = search.value;//veriable generat for search value
   console.log(term);
   if (term.trim()) {
-    fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${search.value}`)  // https://www.themealdb.com/api/json/v1/1/search.php?s=${term}`)
+    fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${term}`)  // https://www.themealdb.com/api/json/v1/1/search.php?s=${term}`)
     .then((res) => res.json())//json pal ko convert
       .then((data) => {
         console.log(data);
         resultHeading.innerHTML = `<h2>Search results for '${term}':</h2>`;
         if (data.meals === null) {
-          resultHeading.innerHTML = `<h2>There are no search results. Try again!</h2>`;
+          resultHeading.innerHTML = `<p>There are no search results. Try again!</p>`;
         } else {
           mealsEl.innerHTML = data.meals
             .map(
@@ -50,6 +52,8 @@ function getMealById(mealID) {
     });
 }
 function getRandomById() {
+ resultHeading.innerHTML = "";
+ mealsEl.innerHTML = "";
 fetch(`https://www.themealdb.com/api/json/v1/1/random.php`)
     .then((res) => res.json())
     .then((data) => {
